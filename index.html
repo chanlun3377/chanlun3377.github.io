@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>杨璨伦 · 会讲故事的数据人</title>
+<meta name="description" content="杨璨伦，数据科学背景的内容运营与数据可视化创作者。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%232E5C4C'/%3E%3Ctext x='16' y='23' font-size='19' text-anchor='middle' fill='%23ECEFEA' font-family='serif'%3E%E7%92%A8%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://miaoda.feishu.cn">
+<link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Noto+Serif+SC:wght@500;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --paper:#ECEFEA; --paper-2:#E1E8DF; --paper-3:#D3DCD0;
+  --ink:#1B2620; --ink-2:#43504A; --ink-3:#6C7870;
+  --green:#2E5C4C; --green-2:#224438;
+  --gold:#A98A54; --seal:#B14431;
+  --line:rgba(27,38,32,.15); --line-2:rgba(27,38,32,.32);
+  --serif:"Noto Serif SC","Songti SC",SimSun,serif;
+  --sans:"Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;
+  --mono:"IBM Plex Mono","Cascadia Code",Consolas,monospace;
+  --maxw:1240px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.75;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:radial-gradient(rgba(27,38,32,.09) 1px,transparent 1px);background-size:22px 22px}
+.grain{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.055}
+.nav,.wrap,footer{position:relative;z-index:1}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 32px}
+.view{display:none}
+.view.active{display:block}
+section{padding:92px 0}
+
+/* navigation */
+.nav{position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(236,239,234,.94);border-bottom:1px solid var(--line)}
+.nav-inner{max-width:var(--maxw);margin:0 auto;padding:0 32px;height:68px;display:flex;align-items:center;justify-content:space-between}
+.nav-brand{font-family:var(--serif);font-weight:700;font-size:18px;text-decoration:none;color:var(--ink);letter-spacing:.06em;line-height:1.2}
+.nav-brand small{font-family:var(--mono);font-weight:400;font-size:10px;letter-spacing:.22em;color:var(--ink-2)}
+.nav-links{display:flex;gap:4px;list-style:none}
+.nav-links a{display:block;padding:8px 14px;font-size:14px;color:var(--ink-2);text-decoration:none;border-bottom:2px solid transparent}
+.nav-links a:hover{color:var(--ink)}
+.nav-links a.active{color:var(--ink);border-color:var(--green)}
+
+/* typography */
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.18em;color:var(--ink-2);text-transform:uppercase}
+.meta{font-family:var(--mono);font-size:12px;color:var(--ink-2)}
+.sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:44px;border-bottom:1px solid var(--line);padding-bottom:18px}
+.sec-head h2{font-family:var(--serif);font-weight:700;font-size:clamp(28px,4vw,42px);line-height:1.2}
+.sec-head p{color:var(--ink-2);max-width:420px;font-size:14px}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 28px;background:var(--green);color:var(--paper);font-weight:500;font-size:15px;text-decoration:none;border:1px solid var(--green);transition:background .2s,color .2s}
+.btn:hover{background:var(--green-2)}
+.btn-ghost{background:transparent;color:var(--ink);border:1px solid var(--line-2)}
+.btn-ghost:hover{border-color:var(--ink);background:rgba(27,38,32,.05)}
+.textlink{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--line-2);padding-bottom:2px;font-weight:500}
+.textlink:hover{color:var(--green);border-color:var(--green)}
+
+/* hero */
+.hero{padding:150px 0 70px}
+.hero-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:34px;align-items:start}
+.hero-left{grid-column:1/8}
+.hero-right{grid-column:8/13;position:relative}
+.hero-name{font-family:var(--serif);font-weight:900;font-size:clamp(52px,8vw,106px);line-height:1.02;margin:18px 0 14px}
+.hero-id{font-size:clamp(16px,2vw,20px);color:var(--green-2);font-weight:500;margin-bottom:22px}
+.hero-statement{color:var(--ink-2);max-width:560px;margin-bottom:36px}
+.hero-cta{display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+.hero-portrait{position:relative;border:1px solid var(--line-2);background:var(--paper-2)}
+.hero-portrait img{display:block;width:100%}
+.hero-vertical{position:absolute;top:0;right:100%;margin-right:14px;writing-mode:vertical-rl;font-family:var(--serif);font-size:15px;letter-spacing:.38em;color:var(--ink-2)}
+.seal{position:absolute;left:-18px;bottom:-18px;width:64px;height:64px;background:var(--seal);color:#f4ede3;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-weight:700;font-size:26px;border-radius:6px;transform:rotate(-6deg)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:66px}
+.stat{padding:26px 22px;border-left:1px solid var(--line)}
+.stat:first-child{border-left:none}
+.stat b{display:block;font-family:var(--mono);font-size:clamp(23px,2.6vw,33px);font-weight:500;color:var(--green-2)}
+.stat span{font-size:13px;color:var(--ink-2)}
+
+/* about preview */
+.about-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:42px;align-items:center}
+.about-text{grid-column:1/8}
+.about-img{grid-column:9/13}
+.about-img img{width:100%;border:1px solid var(--line-2);display:block}
+.about-img figcaption{font-family:var(--mono);font-size:11px;color:var(--ink-2);margin-top:8px}
+.big-p{font-size:18px;margin-bottom:18px}
+
+/* project cards */
+.sel-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:28px}
+.card{display:flex;flex-direction:column;text-decoration:none;color:var(--ink)}
+.card-img{overflow:hidden;background:var(--paper-2);border:1px solid var(--line)}
+.card-img img{width:100%;display:block;transition:transform .5s cubic-bezier(.22,1,.36,1)}
+.card:hover .card-img img{transform:scale(1.03)}
+.card-num{font-family:var(--mono);font-size:12px;color:var(--ink-3);margin:16px 0 6px}
+.card-title{font-family:var(--serif);font-weight:700;font-size:22px;line-height:1.3}
+.card-desc{font-size:14px;color:var(--ink-2);margin-top:8px}
+.card--large{grid-column:span 8}
+.card--small{grid-column:span 4}
+.card--wide{grid-column:span 12;flex-direction:row;align-items:center;gap:38px}
+.card--wide .card-img{flex:1}
+.card--wide .card-body{flex:1}
+.card--large .card-img img{height:430px;object-fit:cover}
+.card--small .card-img img{height:270px;object-fit:cover}
+.card--wide .card-img img{height:350px;object-fit:cover;object-position:top}
+.textcard{grid-column:span 4;background:var(--paper-2);border:1px solid var(--line);padding:28px;min-height:270px;display:flex;flex-direction:column}
+.textcard .card-num{margin-top:0}
+.textcard .card-title{font-size:20px;margin-top:auto}
+.textcard p{font-size:14px;color:var(--ink-2);margin-top:10px}
+
+/* timeline */
+.tl{display:grid;grid-template-columns:170px 26px 1fr;row-gap:34px}
+.tl .t{font-family:var(--mono);font-size:13px;color:var(--ink-2);text-align:right;padding-right:10px}
+.tl .dot{position:relative;justify-self:center;width:12px}
+.tl .dot::before{content:"";position:absolute;top:7px;left:0;width:12px;height:12px;background:var(--green);border-radius:50%}
+.tl .dot::after{content:"";position:absolute;top:13px;left:50%;transform:translateX(-50%);width:1px;height:calc(100% + 34px);background:var(--line-2)}
+.tl .row:last-child .dot::after{display:none}
+.tl h4{font-size:16px;font-weight:700}
+.tl p{font-size:14px;color:var(--ink-2)}
+
+/* skills */
+.skill-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+.skill-box{border:1px solid var(--line);padding:26px;background:rgba(255,255,255,.28)}
+.skill-box h4{font-family:var(--serif);font-size:18px;margin-bottom:14px}
+.skill-box ul{list-style:none;font-size:14px;color:var(--ink-2)}
+.skill-box li{padding:5px 0;border-bottom:1px dashed var(--line)}
+.skill-box li:last-child{border:none}
+
+/* project detail */
+.pd-head{padding:140px 0 42px;border-bottom:1px solid var(--line)}
+.pd-title{font-family:var(--serif);font-weight:900;font-size:clamp(36px,6vw,66px);line-height:1.1;margin:14px 0 26px}
+.pd-meta{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.pd-meta div{border-left:2px solid var(--green);padding-left:14px}
+.pd-meta dt{font-family:var(--mono);font-size:11px;color:var(--ink-3);letter-spacing:.1em}
+.pd-meta dd{font-size:15px;font-weight:500;margin-top:4px}
+.pd-sec{display:grid;grid-template-columns:repeat(12,1fr);gap:30px;padding:62px 0;border-bottom:1px solid var(--line)}
+.pd-sec>.pd-num{grid-column:1/3;font-family:var(--mono);font-size:13px;color:var(--green)}
+.pd-sec>.pd-body{grid-column:3/11}
+.pd-body h3{font-family:var(--serif);font-size:24px;margin-bottom:14px}
+.pd-body p{color:var(--ink-2);margin-bottom:12px}
+.pd-body ul{margin:8px 0 12px 20px;color:var(--ink-2)}
+.pd-body li{margin-bottom:8px}
+.evidence{grid-column:1/13;display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.evidence figure{border:1px solid var(--line);background:var(--paper-2)}
+.evidence img{width:100%;display:block}
+.evidence figcaption{font-family:var(--mono);font-size:11px;color:var(--ink-2);padding:8px 12px}
+details.long{grid-column:1/13;border:1px solid var(--line);background:rgba(255,255,255,.22)}
+details.long summary{cursor:pointer;padding:16px 20px;font-weight:500;font-size:15px;list-style:none}
+details.long summary::-webkit-details-marker{display:none}
+details.long summary::before{content:"＋";font-family:var(--mono);margin-right:12px;color:var(--green)}
+details.long[open] summary::before{content:"－"}
+details.long img{width:100%;display:block;border-top:1px solid var(--line)}
+.reflect{grid-column:1/13;background:var(--paper-2);border:1px solid var(--line);padding:32px 38px}
+.reflect p{font-size:17px;color:var(--ink)}
+.backlink{display:inline-block;margin-bottom:30px;font-family:var(--mono);font-size:12px;color:var(--ink-2);text-decoration:none}
+.backlink:hover{color:var(--green)}
+
+/* about view */
+.about-hero{display:grid;grid-template-columns:repeat(12,1fr);gap:42px;align-items:center;padding:140px 0 56px}
+.about-hero .lead{grid-column:1/8;font-size:19px}
+.about-hero figure{grid-column:9/13}
+.about-hero img{width:100%;border:1px solid var(--line-2)}
+.story-sec{display:grid;grid-template-columns:repeat(12,1fr);gap:30px;padding:54px 0;border-bottom:1px solid var(--line)}
+.story-sec .n{grid-column:1/3;font-family:var(--mono);color:var(--green);font-size:13px}
+.story-sec .b{grid-column:3/11}
+.story-sec h3{font-family:var(--serif);font-size:23px;margin-bottom:12px}
+.story-sec p{color:var(--ink-2)}
+.awards{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.awards img{width:100%;border:1px solid var(--line);display:block}
+.awards figcaption{font-family:var(--mono);font-size:11px;color:var(--ink-2);margin-top:8px}
+.values{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.value{border-top:2px solid var(--green);padding-top:18px}
+.value h4{font-family:var(--serif);font-size:18px;margin-bottom:8px}
+.value p{font-size:14px;color:var(--ink-2)}
+
+/* contact */
+.contact-hero{padding:150px 0 60px}
+.contact-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:42px}
+.contact-main{grid-column:1/8}
+.contact-side{grid-column:9/13}
+.method{padding:22px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:20px}
+.method h4{font-size:13px;color:var(--ink-3);font-family:var(--mono);font-weight:400}
+.method .v{font-size:18px;font-weight:500}
+.copy-btn{font-family:var(--mono);font-size:11px;border:1px solid var(--line-2);background:transparent;padding:6px 12px;cursor:pointer}
+.copy-btn:hover{background:var(--green);color:var(--paper);border-color:var(--green)}
+.qr{border:1px solid var(--line-2);padding:18px;background:#fff}
+.qr img{width:100%;display:block}
+.qr figcaption{font-family:var(--mono);font-size:11px;text-align:center;color:var(--ink-2);margin-top:10px}
+.linklist{list-style:none}
+.linklist li{border-bottom:1px solid var(--line)}
+.linklist a{display:flex;justify-content:space-between;gap:16px;padding:14px 0;color:var(--ink);text-decoration:none;font-size:15px}
+.linklist a:hover{color:var(--green)}
+.linklist .tag{font-family:var(--mono);font-size:11px;color:var(--ink-3);white-space:nowrap}
+.status{display:inline-block;background:var(--green);color:var(--paper);font-size:13px;padding:6px 16px;margin-bottom:24px}
+
+/* footer */
+.footer{border-top:1px solid var(--line);padding:34px 0;margin-top:70px}
+.footer-inner{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-family:var(--mono);font-size:11px;color:var(--ink-3)}
+
+/* reveal + toast */
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1)}
+.reveal.in{opacity:1;transform:none}
+.toast{position:fixed;left:50%;bottom:42px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--paper);padding:12px 24px;font-size:14px;opacity:0;transition:.3s;z-index:100;pointer-events:none}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+@media (max-width:900px){
+  .hero-left,.hero-right{grid-column:1/13}
+  .hero{padding:118px 0 40px}
+  .stats{grid-template-columns:1fr 1fr}
+  .stat:nth-child(odd){border-left:none}
+  .about-text,.about-img,.contact-main,.contact-side{grid-column:1/13}
+  .card--large,.card--small,.card--wide{grid-column:span 12;flex-direction:column;gap:20px}
+  .textcard{grid-column:span 12}
+  .skill-grid,.values,.awards,.pd-meta,.evidence{grid-template-columns:1fr}
+  .tl{grid-template-columns:112px 20px 1fr}
+  .pd-sec>.pd-num,.pd-sec>.pd-body{grid-column:1/13}
+  .story-sec .n,.story-sec .b{grid-column:1/13}
+  .nav-links a{padding:12px 10px;font-size:13px}
+  .nav-brand small{display:none}
+  .hero-vertical{display:none}
+  .card--wide{align-items:stretch}
+}
+@media (prefers-reduced-motion:reduce){
+  .reveal{opacity:1;transform:none;transition:none}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<!-- grain overlay -->
+<svg class="grain" xmlns="http://www.w3.org/2000/svg">
+  <filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch"/></filter>
+  <rect width="100%" height="100%" filter="url(#n)"/>
+</svg>
+
+<!-- ===== 导航 ===== -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="nav-brand" href="#home">杨璨伦<small>YANG CANLUN · PORTFOLIO</small></a>
+    <ul class="nav-links">
+      <li><a href="#home" data-route="home">首页</a></li>
+      <li><a href="#work" data-route="work">作品</a></li>
+      <li><a href="#about" data-route="about">关于</a></li>
+      <li><a href="#contact" data-route="contact">联系</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ===== 视图：HOME ===== -->
+<section id="view-home" class="view active">
+
+  <div class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-left">
+        <p class="eyebrow">Portfolio · 2026</p>
+        <h1 class="hero-name">杨璨伦</h1>
+        <p class="hero-id">数据科学背景的内容运营 · 数据可视化创作者</p>
+        <p class="hero-statement">我擅长把零散数据经过采集、分析和设计，变成人看得懂、愿意看、甚至会因此行动的内容。在企业里，我的推文拿到过 12% 点击率和 20% 转化率；在生活里，我独立开发过持续运行的电费监测系统。</p>
+        <div class="hero-cta">
+          <a class="btn" href="#work">查看作品</a>
+          <a class="btn-ghost btn" href="assets/yangcanlun-resume.pdf" download="杨璨伦-通用简历.pdf">下载简历</a>
+        </div>
+      </div>
+      <div class="hero-right">
+        <span class="hero-vertical">会讲故事的数据人</span>
+        <figure class="hero-portrait">
+          <img src="assets/portrait.jpg" alt="杨璨伦肖像照" loading="eager">
+        </figure>
+        <span class="seal">杨</span>
+      </div>
+    </div>
+    <div class="wrap">
+      <div class="stats reveal">
+        <div class="stat"><b>12%</b><span>推文点击率 · 药王山实习</span></div>
+        <div class="stat"><b>20%</b><span>推文转化率 · 药王山实习</span></div>
+        <div class="stat"><b>92%</b><span>用户问题解决率 · 猿辅导实习</span></div>
+        <div class="stat"><b>两届</b><span>校乒乓球联赛男子第一名</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- about preview -->
+  <section>
+    <div class="wrap about-grid">
+      <div class="about-text reveal">
+        <p class="eyebrow">About</p>
+        <p class="big-p">我是杨璨伦，武汉传媒学院数据科学与大数据技术专业在读，正在寻找运营 / 数据分析方向的实习。</p>
+        <p>我一直站在“数据”和“人”之间——把冷冰冰的数据，变成人看得懂、愿意看、甚至会因此行动的故事。三年里，这个公式在课堂上反复被验证（多门课程满绩结课），在企业里拿到了真实的商业结果，在生活里变成了自己每天运行的工具。</p>
+        <p style="margin-top:22px"><a class="textlink" href="#about">了解我的故事</a></p>
+      </div>
+      <figure class="about-img reveal">
+        <img src="assets/action.jpg" alt="杨璨伦在乒乓球比赛中">
+        <figcaption>Fig. A — 校乒乓球联赛现场，2026</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- selected work -->
+  <section>
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <h2>精选作品</h2>
+        <p>按代表性与证据强度挑选：一件技术、一件商业、一件内容，恰好对应我的三种能力侧面。</p>
+      </div>
+      <div class="sel-grid">
+        <a class="card card--large reveal" href="#project/electricity">
+          <div class="card-img"><img src="assets/electricity-run.jpg" alt="电费监测系统运行截图"></div>
+          <p class="card-num">Fig. 01 — 个人项目 · Python · 2026</p>
+          <h3 class="card-title">校园电费智能监控告警系统</h3>
+          <p class="card-desc">从宿舍断电的真实痛点出发，在云服务器方案全部被拦截后，改用本地住宅 IP 独立重构，系统持续运行至今。</p>
+          <p class="card-desc">查看项目详情</p>
+        </a>
+        <a class="card card--small reveal" href="#project/yaowangshan">
+          <div class="card-img"><img src="assets/soap-2.jpg" alt="药王山植萃柔丝皂产品主图"></div>
+          <p class="card-num">Fig. 02 — 实习 · 内容运营 · 2026</p>
+          <h3 class="card-title">药王山品牌内容电商 0→1</h3>
+          <p class="card-desc">独立完成两款本草产品的推文、主图、详情页与微店搭建，推文点击率 12%、转化率 20%，全部产出被公司采用。</p>
+          <p class="card-desc">查看项目详情</p>
+        </a>
+        <a class="card card--wide reveal" href="http://hnjm2y.epub360.cn/v2/manage/book/jvy3x4/" target="_blank" rel="noopener">
+          <div class="card-img"><img src="assets/hubei-long.jpg" alt="留在湖北的101个理由长图"></div>
+          <div class="card-body">
+            <p class="card-num">Fig. 03 — 课程项目 · 八爪鱼 · 意派 · PS · 2026</p>
+            <h3 class="card-title">《留在湖北的101个理由》数据叙事 H5 与长图</h3>
+            <p class="card-desc">以数据采集为底、“小楚的日记”为叙事线，把一次就业选择做成可交互的数据故事，满绩结课。</p>
+            <p class="card-desc">打开 H5（需在微信内访问）</p>
+          </div>
+        </a>
+      </div>
+      <p style="margin-top:34px"><a class="textlink" href="#work">查看全部作品</a></p>
+    </div>
+  </section>
+
+  <!-- experience -->
+  <section>
+    <div class="wrap">
+      <div class="sec-head reveal"><h2>经历</h2><p>两段实习与一段硬角色校园经历。</p></div>
+      <div class="tl reveal">
+        <div class="row t">2026.07 – 08</div>
+        <div class="row dot"></div>
+        <div class="row"><h4>湖北药王山生态农业 · 内容 / 宣发运营实习</h4><p>推文 12% 点击率、20% 转化率；从 0 完成两款本草产品视觉体系与微店搭建，全部被公司采用。</p></div>
+        <div class="row t">2026.01 – 02</div>
+        <div class="row dot"></div>
+        <div class="row"><h4>猿辅导 / 小猿优课 · 用户服务实习</h4><p>日均处理 50+ 用户咨询，问题解决率 92%，首月绩效位列同期实习生第一；参与搭建 FAQ 内容库。</p></div>
+        <div class="row t">2023.09 – 2025.09</div>
+        <div class="row dot"></div>
+        <div class="row"><h4>校乒乓球社 · 社长</h4><p>组织社团活动与校级比赛；两份优化建议书被学校有关部门采纳并落实。</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- skills -->
+  <section>
+    <div class="wrap">
+      <div class="sec-head reveal"><h2>核心能力</h2><p>每一项都有对应作品或经历作为证据。</p></div>
+      <div class="skill-grid reveal">
+        <div class="skill-box">
+          <h4>数据全流程</h4>
+          <ul><li>Python 数据处理</li><li>SPSS 统计分析</li><li>Excel 数据分析</li><li>Tableau 可视化报表</li><li>八爪鱼数据采集</li><li>SQL（课程基础）</li></ul>
+        </div>
+        <div class="skill-box">
+          <h4>内容与可视化</h4>
+          <ul><li>Photoshop 信息长图</li><li>公众号选题与推文</li><li>意派 / 秀米 H5</li><li>An 补间动画</li><li>Premiere / 剪映</li><li>HTML + CSS（课程项目）</li></ul>
+        </div>
+        <div class="skill-box">
+          <h4>对人与推动</h4>
+          <ul><li>用户沟通与倾听</li><li>需求洞察与分析</li><li>书面方案撰写</li><li>跨部门协作</li><li>活动组织统筹</li><li>独立交付与质量把控</li></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</section>
+
+<!-- ===== 视图：WORK ===== -->
+<section id="view-work" class="view">
+  <div class="pd-head">
+    <div class="wrap">
+      <p class="eyebrow">Work · 2023 – 2026</p>
+      <h1 class="pd-title">作品</h1>
+      <p style="color:var(--ink-2);max-width:640px">六件主要作品，覆盖技术开发、商业内容与数据可视化三个方向；卡片大小代表重要程度。另有课程作品清单附在最后。</p>
+    </div>
+  </div>
+  <div class="wrap" style="padding-top:64px">
+    <div class="sel-grid">
+
+      <a class="card card--large reveal" href="#project/electricity">
+        <div class="card-img"><img src="assets/electricity-run.jpg" alt="电费监测系统运行截图"></div>
+        <p class="card-num">Fig. 01 — 个人项目 · 2026.09 – 10</p>
+        <h3 class="card-title">校园电费智能监控告警系统</h3>
+        <p class="card-desc">Python 独立开发，本地部署，每日两次自动查询并通过 QQ 推送告警；在云方案全部被拦截后自己找到本地 IP 路线，持续运行至今。</p>
+        <p class="card-desc">查看项目详情</p>
+      </a>
+
+      <a class="card card--small reveal" href="#project/yaowangshan">
+        <div class="card-img"><img src="assets/soap-2.jpg" alt="药王山植萃柔丝皂主图"></div>
+        <p class="card-num">Fig. 02 — 实习项目 · 2026.07 – 08</p>
+        <h3 class="card-title">药王山品牌内容电商 0→1</h3>
+        <p class="card-desc">两款本草产品的推文、主图、详情页长图与微店搭建，全部独立完成并被公司采用。</p>
+        <p class="card-desc">查看项目详情</p>
+      </a>
+
+      <a class="card card--small reveal" href="http://hnjm2y.epub360.cn/v2/manage/book/jvy3x4/" target="_blank" rel="noopener">
+        <div class="card-img"><img src="assets/hubei-long.jpg" alt="留在湖北的101个理由长图封面" style="height:270px;object-fit:cover;object-position:top"></div>
+        <p class="card-num">Fig. 03 — 课程项目 · 满绩 · 2026</p>
+        <h3 class="card-title">《留在湖北的101个理由》H5 与长图</h3>
+        <p class="card-desc">八爪鱼采集数据，意派制作交互 H5，PS 产出叙事长图，以“小楚的日记”串联就业选择。</p>
+        <p class="card-desc">打开 H5（微信内访问）</p>
+      </a>
+
+      <a class="textcard reveal" href="https://mp.weixin.qq.com/s/qTVj6QegNDVOZvCtZQgwfw" target="_blank" rel="noopener">
+        <p class="card-num">Fig. 04 — 课程项目 · 2025</p>
+        <h3 class="card-title">《剁手大数据：300名大学生揭秘网购真相》</h3>
+        <p>独立采集 320 名同学的问卷数据，SPSS 完成分析与可视化，秀米产出微信图文推文。</p>
+        <p class="card-desc">阅读推文原文</p>
+      </a>
+
+      <div class="textcard reveal">
+        <p class="card-num">Fig. 05 — 课程项目 · 满绩</p>
+        <h3 class="card-title">数据可视化长图系列</h3>
+        <p>《中国航天科创长图》《十年磨一剑，终破心魔》两件信息长图，独立完成数据整理（含知微舆情平台取数）与 PS 视觉设计。</p>
+      </div>
+
+      <div class="textcard reveal">
+        <p class="card-num">Fig. 06 — 课程项目 · 2023</p>
+        <h3 class="card-title">四省五年体育发展情况分析报告</h3>
+        <p>独立从京闽粤辽四省统计年鉴采集数据，使用 SPSS 主成分分析与聚类分析，完成从清洗到结论的完整报告。</p>
+      </div>
+
+      <div class="textcard reveal" style="grid-column:span 8;min-height:0">
+        <p class="card-num">More — 其他课程作品</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 36px;margin-top:14px">
+          <div style="display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px"><span>H5《湖北文物》</span><span class="meta">秀米 H5</span></div>
+          <div style="display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px"><span>推文《巴黎奥运 · 全民健身》</span><span class="meta">PS + 秀米</span></div>
+          <div style="display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px"><span>网页《中国乒乓》</span><span class="meta">HTML + CSS · 满绩</span></div>
+          <div style="display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px"><span>动画《family》</span><span class="meta">An 补间动画</span></div>
+          <div style="display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px"><span>短片《无名之人》</span><span class="meta">Premiere</span></div>
+          <div style="display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px"><span>推文《全球通史》</span><span class="meta">秀米</span></div>
+          <div style="display:flex;justify-content:space-between;gap:12px;padding:10px 0;font-size:14px"><span>《全球近十年 GDP 对比》仪表盘</span><span class="meta">Tableau</span></div>
+          <div style="display:flex;justify-content:space-between;gap:12px;padding:10px 0;font-size:14px"><span>电费监测系统代码仓库</span><span class="meta">GitHub · MIT</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== 视图：PROJECT / ELECTRICITY ===== -->
+<section id="view-project-electricity" class="view">
+  <div class="pd-head">
+    <div class="wrap">
+      <a class="backlink" href="#work">← 返回作品</a>
+      <p class="eyebrow">Project 01 · Personal</p>
+      <h1 class="pd-title">校园电费智能监控告警系统</h1>
+      <dl class="pd-meta">
+        <div><dt>时间</dt><dd>2026.09 – 10</dd></div>
+        <div><dt>角色</dt><dd>独立开发</dd></div>
+        <div><dt>类型</dt><dd>个人项目 · 工具</dd></div>
+        <div><dt>链接</dt><dd><a class="textlink" href="https://github.com/chanlun3377/campus-electricity-alert" target="_blank" rel="noopener">GitHub 仓库</a></dd></div>
+      </dl>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="pd-sec">
+      <p class="pd-num">01 — Context</p>
+      <div class="pd-body">
+        <h3>游戏打到一半，宿舍又黑了</h3>
+        <p>寝室经常因为忘记充电费，在打游戏、赶作业的中途突然断电。等想起来要充值，又可能撞上充值系统夜间维护，只能等到第二天。</p>
+        <p>我在 GitHub 上看到有人做“完美校园”电费告警，但现成方案在我们学校跑不起来——于是决定自己做一个。</p>
+      </div>
+    </div>
+
+    <div class="pd-sec">
+      <p class="pd-num">02 — Problem</p>
+      <div class="pd-body">
+        <h3>现成方案为什么不可用</h3>
+        <ul>
+          <li>原方案依赖 GitHub Actions 或云服务器定时运行，而学校查询接口有阿里云 WAF，云服务器 IP 的请求全部被拦截（405）；</li>
+          <li>原脚本用 shell + grep 解析 JSON，不同学校返回结构不同（roomlist / detaillist），字段一变就失效；</li>
+          <li>阈值边界、空余额、中文编码等细节处理不好，就会误报、乱码，告警形同虚设。</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="pd-sec">
+      <p class="pd-num">03 — Process</p>
+      <div class="pd-body">
+        <h3>重构，以及 AI 劝我放弃之后</h3>
+        <ul>
+          <li>用 Python 重构数据层：json.loads 解析，兼容两种返回结构；浮点精确比较、空值过滤、原生 UTF-8 编码；</li>
+          <li>通知层接入 Qmsg 酱 QQ 推送：每日 12:00、19:00 两次查询，余额低于 15 度触发告警，推送失败自动重试；</li>
+          <li>关键转折：AI 带着我试了多家云服务器厂商，全部被 WAF 拦截，最后建议“到此为止”。我把前面所有线索重新串了一遍，自己提出改用本地住宅 IP + Windows 任务计划程序定时运行——一次走通；</li>
+          <li>补上配置化适配层与优雅降级，并撰写 README 与踩坑记录。项目基于开源项目 zuwei522/perfect-campus_electricity-alert 重构，来源已在仓库注明。</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="pd-sec">
+      <p class="pd-num">04 — Outcome</p>
+      <div class="pd-body">
+        <h3>持续运行的日常工具</h3>
+        <p>系统部署后持续运行至今，覆盖照明、空调等多个房间，宿舍再没有出现过意外断电。代码以 MIT 协议公开，README 完整记录了部署步骤与云服务器被拦截的踩坑过程。</p>
+      </div>
+      <div class="evidence">
+        <figure><img src="assets/electricity-run.jpg" alt="本地运行 alert.py 的截图"><figcaption>Fig. E1 — 本地运行：余额查询结果与“推送成功”</figcaption></figure>
+        <figure><img src="assets/electricity-github.jpg" alt="GitHub 仓库页面截图"><figcaption>Fig. E2 — GitHub 仓库 chanlun3377/campus-electricity-alert</figcaption></figure>
+      </div>
+    </div>
+
+    <div class="pd-sec" style="border-bottom:none">
+      <p class="pd-num">05 — Reflection</p>
+      <div class="reflect">
+        <p>网上的代码固然优秀，但不一定适合自己的环境；AI 能快速给出方向，可方向必须自己过脑子。整个项目里真正决定成败的那一步——放弃云端、回到本地——是 AI 停下来之后，我自己把线索串起来想到的。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 视图：PROJECT / YAOWANGSHAN ===== -->
+<section id="view-project-yaowangshan" class="view">
+  <div class="pd-head">
+    <div class="wrap">
+      <a class="backlink" href="#work">← 返回作品</a>
+      <p class="eyebrow">Project 02 · Internship</p>
+      <h1 class="pd-title">药王山品牌内容电商 0→1</h1>
+      <dl class="pd-meta">
+        <div><dt>时间</dt><dd>2026.07 – 08</dd></div>
+        <div><dt>角色</dt><dd>内容 / 宣发运营（独立完成）</dd></div>
+        <div><dt>类型</dt><dd>实习项目 · 内容电商</dd></div>
+        <div><dt>成果</dt><dd>点击率 12% · 转化率 20%</dd></div>
+      </dl>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="pd-sec">
+      <p class="pd-num">01 — Context</p>
+      <div class="pd-body">
+        <h3>一家第一次做线上的本草品牌</h3>
+        <p>湖北药王山生态农业首次尝试线上化销售：没有公众号内容积累，没有线上视觉体系，也没有开店。我需要从 0 把内容、视觉和销售渠道一起搭起来。</p>
+      </div>
+    </div>
+
+    <div class="pd-sec">
+      <p class="pd-num">02 — Problem</p>
+      <div class="pd-body">
+        <h3>好产品，但用户看不懂</h3>
+        <p>两款产品——植萃柔丝密丝养根皂（十二味本草）与艾君洁皮肤抑菌液（五味本草，李时珍医药集团生产）——背后是复杂的中医组方与熬制工艺流程。直接罗列成分，用户既不愿意看，也不会下单。内容要解决的，是“理解成本”和“行动意愿”两件事。</p>
+      </div>
+    </div>
+
+    <div class="pd-sec">
+      <p class="pd-num">03 — Process</p>
+      <div class="pd-body">
+        <h3>调研、翻译、拍摄、上架</h3>
+        <ul>
+          <li>实地走访药田产地与生产一线，向公司负责人了解产品资料，结合公开资料补齐内容；</li>
+          <li>选题与文案：从用户真实困扰（脱发、日常皮肤抑菌）切入，把君臣佐使的组方逻辑和工艺流程翻译成读得下去、可视化的内容；</li>
+          <li>视觉制作：自己拍摄产品照片，用 Photoshop 完成两款产品的主图、品牌视觉与详情页长图；</li>
+          <li>渠道搭建：按平台指引独立完成微店从 0 到 1 的开通、装修与商品上架。</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="pd-sec">
+      <p class="pd-num">04 — Outcome</p>
+      <div class="pd-body">
+        <h3>被采用，并且拿到了真实结果</h3>
+        <p>推文《你的洗发水，可能正在让你变秃！》取得 12% 点击率与 20% 转化率；两款产品的主图、详情页长图与微店全部被公司领导认可并实际投入使用。</p>
+        <p><a class="textlink" href="https://mp.weixin.qq.com/s/_GtxEQU-OiSlHX1hLh3ZQg" target="_blank" rel="noopener">阅读推文原文</a></p>
+      </div>
+      <div class="evidence">
+        <figure><img src="assets/product-photo.jpg" alt="药田中的植萃柔丝皂产品实拍"><figcaption>Fig. E1 — 产品实拍（本人拍摄）：药田中的药皂与包装</figcaption></figure>
+        <figure><img src="assets/soap-1.jpg" alt="植萃柔丝皂白底产品主图"><figcaption>Fig. E2 — PS 制作的白底产品主图</figcaption></figure>
+      </div>
+      <details class="long">
+        <summary>Fig. E3 — 植萃柔丝密丝养根皂 · 详情页完整长图</summary>
+        <img src="assets/soap-detail.jpg" alt="植萃柔丝皂详情页长图" loading="lazy">
+      </details>
+      <details class="long">
+        <summary>Fig. E4 — 艾君洁皮肤抑菌液 · 详情页完整长图</summary>
+        <img src="assets/spray-detail.jpg" alt="皮肤抑菌液详情页长图" loading="lazy">
+      </details>
+    </div>
+
+    <div class="pd-sec" style="border-bottom:none">
+      <p class="pd-num">05 — Reflection</p>
+      <div class="reflect">
+        <p>好内容的本质是“翻译”——把专业的东西，翻译成用户愿意点开、看得懂、看完愿意行动的内容。这是我第一次在真实商业环境里验证“专业与数据 → 叙事 → 行动”这条主线，它确实成立。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 视图：ABOUT ===== -->
+<section id="view-about" class="view">
+
+  <div class="about-hero">
+    <div class="wrap" style="display:grid;grid-template-columns:repeat(12,1fr);gap:42px;align-items:center;width:100%">
+      <div class="lead" style="grid-column:1/8">
+        <p class="eyebrow">About</p>
+        <p class="big-p" style="margin-top:14px">温柔和细致，不是我的天性，是我自己选的。</p>
+        <p>我是杨璨伦，数据科学与大数据技术专业大四学生。比起职位头衔，我更愿意这样介绍自己：一个把数据翻译成人话、把问题推进到结果的人。</p>
+      </div>
+      <figure style="grid-column:9/13;margin:0">
+        <img src="assets/award-group.jpg" alt="校乒乓球联赛颁奖合影" style="width:100%;border:1px solid var(--line-2)">
+        <figcaption class="meta" style="margin-top:8px">Fig. — 校乒乓球联赛颁奖现场</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="story-sec">
+      <p class="n">01 — 2015</p>
+      <div class="b">
+        <h3>一次主动的自我重塑</h3>
+        <p>初中时我大大咧咧、爱到处开玩笑，并不喜欢那样的自己。中考结束后，我说不上来具体契机，但明确地决定：不能再那样，要多感受、多体谅别人。从那以后性格慢慢变成了现在的样子——温柔细致不是天赋，是一次主动选择，加上之后很多年的练习。</p>
+      </div>
+    </div>
+
+    <div class="story-sec">
+      <p class="n">02 — 校园</p>
+      <div class="b">
+        <h3>最早被确认的“擅长”</h3>
+        <p>上学时总有些同学来找我聊情感、心理上的困扰，我帮他们梳理问题、分析原因、疏导情绪。“细心、温柔、会分析”——这是我第一次从别人反复的确认里，意识到自己可能擅长沟通、分析和疏导这类事。</p>
+      </div>
+    </div>
+
+    <div class="story-sec">
+      <p class="n">03 — 2023 至今</p>
+      <div class="b">
+        <h3>一个公式，重复了三年</h3>
+        <p>采集数据 → 分析 → 可视化 → 讲成故事。这个公式在课堂上被我反复验证：从大一 SPSS 的四省体育报告，到《留在湖北的101个理由》交互 H5、《中国航天科创长图》，多门课程以满绩结课。我逐渐确认，自己最享受的环节始终是“让数据被人看懂”。</p>
+      </div>
+    </div>
+
+    <div class="story-sec">
+      <p class="n">04 — 实习</p>
+      <div class="b">
+        <h3>在真实用户和真实市场里验证</h3>
+        <p>在猿辅导，我面对的是真实用户：日均处理 50+ 咨询，问题解决率 92%，首月绩效位列同期实习生第一。在药王山，我面对的是真实市场：独立产出推文、两款产品视觉与微店，拿到 12% 点击率和 20% 转化率，全部被公司采用。</p>
+      </div>
+    </div>
+
+    <div class="story-sec" style="border-bottom:none">
+      <p class="n">05 — 2026</p>
+      <div class="b">
+        <h3>自己定义问题，自己造工具</h3>
+        <p>电费监测系统是我第一次完整地自己定义问题、自己找方案：现成代码失效、AI 尝试了所有云路线后劝我停止，是我自己把线索串起来，回到本地 IP 把它做通。它让我确认：当问题足够具体时，我可以一个人走完从 0 到 1 的全程。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- timeline -->
+  <div class="wrap" style="padding-top:40px">
+    <div class="sec-head"><h2>时间线</h2><p>学习、实习与赛场。</p></div>
+    <div class="tl">
+      <div class="row t">2023.09</div><div class="row dot"></div>
+      <div class="row"><h4>入读武汉传媒学院 · 数据科学与大数据技术</h4><p>同年起担任校乒乓球社社长，组织社团活动与校级比赛。</p></div>
+      <div class="row t">2025.04</div><div class="row dot"></div>
+      <div class="row"><h4>第四届校乒乓球联赛 · 男子第一名</h4><p>人文与艺术学院体育教研室颁发。</p></div>
+      <div class="row t">2026.01</div><div class="row dot"></div>
+      <div class="row"><h4>猿辅导 / 小猿优课 · 用户服务实习</h4><p>问题解决率 92%，首月绩效同期实习生第一。</p></div>
+      <div class="row t">2026.05</div><div class="row dot"></div>
+      <div class="row"><h4>第五届校乒乓球联赛 · 男子第一名</h4><p>连续两届获得男子第一名。</p></div>
+      <div class="row t">2026.07</div><div class="row dot"></div>
+      <div class="row"><h4>湖北药王山生态农业 · 内容运营实习</h4><p>推文点击率 12%、转化率 20%，产出全部被采用。</p></div>
+      <div class="row t">2026.09</div><div class="row dot"></div>
+      <div class="row"><h4>独立开发校园电费智能监控告警系统</h4><p>本地部署，持续运行，代码于 GitHub 公开。</p></div>
+      <div class="row t">2027.06</div><div class="row dot"></div>
+      <div class="row"><h4>预计本科毕业</h4><p>正在寻找运营 / 数据分析方向实习与可转正机会。</p></div>
+    </div>
+  </div>
+
+  <!-- awards -->
+  <div class="wrap" style="padding-top:70px">
+    <div class="sec-head"><h2>奖项</h2><p>校内乒乓球联赛，连续两届男子第一名。</p></div>
+    <div class="awards">
+      <figure><img src="assets/award-cert-1.jpg" alt="第四届乒乓球联赛第一名证书与奖杯"><figcaption>第四届校乒乓球联赛男子第一名 · 2025.04（证书与奖杯）</figcaption></figure>
+      <figure><img src="assets/award-cert-2.jpg" alt="第五届乒乓球联赛第一名证书"><figcaption>第五届校乒乓球联赛男子第一名 · 2026.05</figcaption></figure>
+    </div>
+  </div>
+
+  <!-- certs & education -->
+  <div class="wrap" style="padding-top:70px">
+    <div class="sec-head"><h2>证书与教育</h2><p></p></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px">
+      <div>
+        <h4 class="meta" style="margin-bottom:10px">职业资格 / 技能证书</h4>
+        <div style="display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--line);font-size:15px"><span>乒乓球国家二级裁判员</span><span class="meta">裁判资质</span></div>
+        <div style="display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--line);font-size:15px"><span>消防设施操作员</span><span class="meta">国家职业资格五级</span></div>
+      </div>
+      <div>
+        <h4 class="meta" style="margin-bottom:10px">教育背景</h4>
+        <div style="padding:14px 0;border-bottom:1px solid var(--line)">
+          <p style="font-weight:700;font-size:15px">武汉传媒学院 · 数据科学与大数据技术 · 本科</p>
+          <p class="meta" style="margin-top:4px">2023.09 – 2027.06（预计）</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- values -->
+  <div class="wrap" style="padding-top:70px">
+    <div class="sec-head"><h2>我在意的事</h2><p></p></div>
+    <div class="values">
+      <div class="value"><h4>做“给人充电”的工作</h4><p>我放下了当乒乓球教练的想法，怕热爱被重复消耗；我想做让自己和他人都更有能量的事。</p></div>
+      <div class="value"><h4>质量底线不可让</h4><p>当小组作业有人准备糊弄时，我宁愿一个人完成整件事，也不交出不达标的东西。</p></div>
+      <div class="value"><h4>一个身份，多扇门</h4><p>数据、内容、对人岗位我都愿意走；能力是同一套，门可以有很多扇。</p></div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ===== 视图：CONTACT ===== -->
+<section id="view-contact" class="view">
+  <div class="contact-hero">
+    <div class="wrap">
+      <span class="status">正在寻找实习 · 运营 / 数据分析方向</span>
+      <p class="eyebrow">Contact</p>
+      <h1 class="pd-title" style="margin-top:12px">联系我</h1>
+      <div class="contact-grid" style="margin-top:34px">
+        <div class="contact-main">
+          <div class="method">
+            <div><h4>邮箱 EMAIL</h4><p class="v">yang.canlun@outlook.com</p></div>
+            <button class="copy-btn" data-copy="yang.canlun@outlook.com">复制</button>
+          </div>
+          <div class="method">
+            <div><h4>电话 PHONE</h4><p class="v">18327098952</p></div>
+            <button class="copy-btn" data-copy="18327098952">复制</button>
+          </div>
+          <div class="method">
+            <div><h4>地点 LOCATION</h4><p class="v">Base 武汉 · 开放外地机会</p></div>
+          </div>
+        </div>
+        <div class="contact-side">
+          <figure class="qr">
+            <img src="assets/wechat-qr.png" alt="微信添加朋友二维码页">
+            <figcaption>微信扫码添加（昵称：做个好梦）</figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <div class="contact-grid" style="margin-top:56px">
+        <div class="contact-main">
+          <h4 class="meta" style="margin-bottom:6px">作品链接</h4>
+          <ul class="linklist">
+            <li><a href="assets/yangcanlun-resume.pdf" download="杨璨伦-通用简历.pdf"><span>通用版简历（PDF · 一页）</span><span class="tag">CV</span></a></li>
+            <li><a href="https://github.com/chanlun3377/campus-electricity-alert" target="_blank" rel="noopener"><span>GitHub · 校园电费监控告警系统仓库</span><span class="tag">CODE</span></a></li>
+            <li><a href="https://mp.weixin.qq.com/s/_GtxEQU-OiSlHX1hLh3ZQg" target="_blank" rel="noopener"><span>推文 ·《你的洗发水，可能正在让你变秃！》</span><span class="tag">药王山</span></a></li>
+            <li><a href="https://mp.weixin.qq.com/s/qTVj6QegNDVOZvCtZQgwfw" target="_blank" rel="noopener"><span>推文 ·《剁手大数据：大学生网购真相》</span><span class="tag">SPSS</span></a></li>
+            <li><a href="http://hnjm2y.epub360.cn/v2/manage/book/jvy3x4/" target="_blank" rel="noopener"><span>H5 ·《留在湖北的101个理由》（微信内打开）</span><span class="tag">H5</span></a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 页脚 ===== -->
+<footer class="footer">
+  <div class="wrap footer-inner">
+    <span>© 2026 杨璨伦 · 本站作品与数据均为本人真实经历</span>
+    <span><a href="#home" style="color:var(--ink-3);text-decoration:none">回到顶部</a></span>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  var navMap = {'project-electricity':'work','project-yaowangshan':'work'};
+  var io = null;
+
+  function viewIdForHash(){
+    var h = (location.hash || '#home').slice(1);
+    if(h.indexOf('project/') === 0){ h = 'project-' + h.split('/')[1]; }
+    return 'view-' + h;
+  }
+
+  function observeReveals(){
+    var els = document.querySelectorAll('.view.active .reveal:not(.in)');
+    if(!('IntersectionObserver' in window)){
+      els.forEach(function(e){ e.classList.add('in'); });
+      return;
+    }
+    if(!io){
+      io = new IntersectionObserver(function(entries){
+        entries.forEach(function(en){
+          if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); }
+        });
+      }, {threshold:.12});
+    }
+    els.forEach(function(e){ io.observe(e); });
+  }
+
+  function render(){
+    var id = viewIdForHash();
+    var el = document.getElementById(id) || document.getElementById('view-home');
+    function activate(){
+      document.querySelectorAll('.view').forEach(function(v){ v.classList.remove('active'); });
+      el.classList.add('active');
+      var key = el.id.replace('view-','');
+      var navKey = navMap[key] || key;
+      document.querySelectorAll('.nav-links a').forEach(function(a){
+        a.classList.toggle('active', a.getAttribute('data-route') === navKey);
+      });
+      window.scrollTo(0,0);
+      observeReveals();
+    }
+    if(document.startViewTransition && !window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+      document.startViewTransition(activate);
+    } else { activate(); }
+  }
+
+  window.addEventListener('hashchange', render);
+  render();
+
+  /* copy to clipboard */
+  var toastTimer;
+  function showToast(msg){
+    var t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function(){ t.classList.remove('show'); }, 1800);
+  }
+  document.querySelectorAll('[data-copy]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var text = btn.getAttribute('data-copy');
+      function fallback(){
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try{ document.execCommand('copy'); showToast('已复制：' + text); }
+        catch(e){ showToast('复制失败，请手动选择'); }
+        document.body.removeChild(ta);
+      }
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(text).then(function(){ showToast('已复制：' + text); }).catch(fallback);
+      } else { fallback(); }
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
+</body>
+</html>
